@@ -1,0 +1,51 @@
+import operator
+import time
+import datetime
+
+fileName = "C:\\Users\\Jackson\Documents\\VS Code\\ShooterGamingData.txt"
+f = open(fileName , 'r') 
+
+text = f.readlines() 
+
+print(text) 
+f.close() 
+z = 5
+Heartrate = 0
+BloodOxygen = 0
+measuredTime = 0
+
+from mysql.connector import (connection)
+cnx = connection.MySQLConnection(user='root', password='Qazse1234',
+                                 host='127.0.0.1',
+                                 database='weightdb')
+cursor = cnx.cursor()
+for i in text:
+        if operator.contains(i, "Heartrate"):
+            Heartrate2 = i.split(": ")
+            Heartrate = Heartrate2[1]
+            print("H" + Heartrate)
+            measuredTime2 = i.split("->")
+            measuredTime = measuredTime2[0]
+            if measuredTime == 0:
+                next
+            print("T" + measuredTime)
+        if operator.contains(i, "Blood Oxygen"):
+            BloodOxygen2 = i.split(": ")
+            BloodOxygen = BloodOxygen2[1]
+            print("B" + BloodOxygen)
+
+
+        print(str(measuredTime))
+        query = "insert into stress values(" + str(z) + "," + str(Heartrate) + "," + str(BloodOxygen) + "," + datetime.datetime.str(measuredTime).strftime('%H:%M:%S.%f') + "," + "1)"
+        print(query)
+        cursor.execute(query)
+        cnx.commit()
+        z += 1
+    # for (UserName) in cursor:
+    #     print(UserName)
+
+cursor.close()
+cnx.close()
+# # print(i)
+
+
